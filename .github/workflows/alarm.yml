@@ -1,6 +1,7 @@
 # Menjalankan Alarm Bencana di komputer GitHub tiap 30 menit, walaupun laptop mati.
 # Titik api dicek tiap jalan; asap kira-kira sejam sekali (diatur di program/alarm.py).
-# Kunci rahasia diambil dari brankas GitHub: Settings -> Secrets and variables -> Actions.
+# Kunci rahasia diambil dari brankas GitHub (Settings -> Secrets and variables -> Actions),
+# satu kunci bernama ISI_ENV berisi seluruh isi berkas .env.
 name: Alarm Bencana
 
 on:
@@ -33,12 +34,10 @@ jobs:
 
       - name: Jalankan
         env:
-          WAQI_TOKEN: ${{ secrets.WAQI_TOKEN }}
-          X_API_KEY: ${{ secrets.X_API_KEY }}
-          X_API_SECRET: ${{ secrets.X_API_SECRET }}
-          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
-          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
-        run: python program/alarm.py --sungguhan
+          ISI_ENV: ${{ secrets.ISI_ENV }}   # seluruh isi berkas .env laptop, ditempel jadi satu kunci
+        run: |
+          printf '%s\n' "$ISI_ENV" > .env
+          python program/alarm.py --sungguhan
 
       - name: Simpan ingatan program
         if: always()
