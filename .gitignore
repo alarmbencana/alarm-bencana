@@ -1,0 +1,6 @@
+# Kunci rahasia: JANGAN PERNAH ikut terunggah ke GitHub
+.env
+
+# Hasil latihan dan berkas sementara
+latihan/
+__pycache__/

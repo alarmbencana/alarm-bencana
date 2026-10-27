@@ -1,0 +1,28 @@
+SUDAH TERKIRIM 28 Okt 2026 lewat formulir (halaman menjawab "Thanks for your feedback"). Belum ada balasan.
+
+Kirim lewat: https://aqicn.org/contact/ -> "click here to send us a message"
+Kolom email: isi email yang dipakai mendaftar token WAQI (supaya mereka bisa membalas).
+
+------------------------------------------------------------
+
+Subject: Notice of non-profit public use of the WAQI API - Alarm Bencana (Indonesia)
+
+Hello WAQI team,
+
+As your API terms ask, I am letting you know before we start public, non-profit use of the API.
+
+Project: Alarm Bencana (@AlarmBencana on X), a free automated account that warns people in Indonesia about forest fire smoke during the fire season. It has no ads, no paid features, and no income of any kind.
+
+How we use the data:
+- PM2.5 readings from Indonesian stations (BMKG and KLH) through the token registered to this email address.
+- A small program checks the API at most once an hour (about 130 requests per check) and posts a short alert with a map image when a station reaches unhealthy levels.
+- We do not store, archive, or redistribute the raw data.
+
+Attribution: every map image credits the World Air Quality Index Project (aqicn.org) together with the original station owners, BMKG and KLH. Text posts credit "WAQI".
+
+If you have any concerns, or would like us to do something differently, please reply and we will follow your guidance.
+
+Thank you for making this data available.
+
+Alarm Bencana
+https://x.com/AlarmBencana

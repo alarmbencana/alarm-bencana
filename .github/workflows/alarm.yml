@@ -1,0 +1,49 @@
+# Menjalankan Alarm Bencana di komputer GitHub tiap 30 menit, walaupun laptop mati.
+# Titik api dicek tiap jalan; asap kira-kira sejam sekali (diatur di program/alarm.py).
+# Kunci rahasia diambil dari brankas GitHub: Settings -> Secrets and variables -> Actions.
+name: Alarm Bencana
+
+on:
+  schedule:
+    - cron: "5,35 * * * *"   # menit 5 & 35 tiap jam (UTC); sengaja tidak tepat di jam bulat yang ramai
+  workflow_dispatch:         # tombol "Run workflow" untuk menjalankan sekarang juga
+
+concurrency:
+  group: alarm               # jangan pernah dua jalan bersamaan (bisa kirim dobel)
+  cancel-in-progress: false
+
+permissions:
+  contents: write            # untuk menyimpan program/keadaan.json (ingatan program) setelah jalan
+
+jobs:
+  jalan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Pasang Pillow dan huruf Noto Sans
+        run: |
+          pip install --quiet -r program/kebutuhan.txt
+          sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-core > /dev/null
+
+      - name: Jalankan
+        env:
+          WAQI_TOKEN: ${{ secrets.WAQI_TOKEN }}
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
+        run: python program/alarm.py --sungguhan
+
+      - name: Simpan ingatan program
+        if: always()
+        run: |
+          git config user.name "alarm-bencana-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add program/keadaan.json
+          git diff --cached --quiet || (git commit -q -m "keadaan $(date -u +%Y-%m-%dT%H:%MZ)" && git push -q)
